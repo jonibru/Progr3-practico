@@ -1,0 +1,14 @@
+# Compilados
+*.exe
+*.o
+*.out
+
+# Debugger
+*.dSYM/
+
+# VS Code - configuración local
+.vscode/launch.json
+
+# Windows
+Thumbs.db
+desktop.ini
