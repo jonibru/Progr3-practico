@@ -1,0 +1,39 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "cppbuild",
+      "label": "Compilar",
+      "command": "c:\\msys64\\ucrt64\\bin\\g++.exe",
+      "args": [
+        "-fdiagnostics-color=always",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-g",
+        "${file}",
+        "-o",
+        "${fileDirname}\\${fileBasenameNoExtension}.exe"
+      ],
+      "options": {
+        "cwd": "c:\\msys64\\ucrt64\\bin"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "Compilar archivo activo"
+    },
+    {
+      "label": "Compilar y ejecutar",
+      "type": "shell",
+      "command": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+      "dependsOn": "Compilar",
+      "group": "test",
+      "problemMatcher": []
+    }
+  ]
+}
