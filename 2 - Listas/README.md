@@ -64,6 +64,8 @@ cree una función que reciba una lista int L1 y devuelva otra lista int L2 conte
 elementos repetidos de L1. Por ejemplo, si L1 almacena los valores 5->2->7-> 2->5->5->1, debe
 construirse una lista L2 con los valores 5->2. Si en L1 no hay elementos repetidos se debe
 indicar al usuario que no hay elementos repetidos en L1, de lo contrario imprimir ambas listas.
+
+
 Ejercicio N°6:
 Crea un programa que gestione una lista circular de contactos. Cada contacto contiene un
 nombre (cadena de caracteres) y un número de teléfono (cadena de caracteres).
@@ -86,6 +88,9 @@ código proporcionado).
 5. Contar Contactos:
 ○ Usa el método getTamanio() para contar el número de contactos en la lista y
 muestra el resultado.
+
+
+
 Ejercicio N°7
 Utiliza la clase ListaDoble para gestionar una lista de estudiantes, donde cada estudiante
 tiene un nombre (cadena de caracteres) y una edad (entero). Implementa las siguientes
@@ -107,6 +112,9 @@ eliminar al estudiante de la lista.
 5. Contar Estudiantes:
 ○ Usa el método getTamanio() para contar el número de estudiantes en la lista
 y muestra el resultado.
+
+
+
 Ejercicio N°8: APLICACIÓN DE CIRCULARIDAD
 Sistema de Monitor Publicitario Circular
 Desarrolla un programa para gestionar un monitor publicitario que debe mostrar frases de
