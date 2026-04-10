@@ -21,27 +21,150 @@ código proporcionado).
 muestra el resultado.*/
 
 #include <iostream>
+#include <string>
 #include "../Lista.h"
-#include "../ListaDoble.h"
 #include "../nodo.h"
 #include "../CircList.h"
 
 using namespace std;
 
+void agregarContacto(Lista<string> &nombres, Lista<string> &numeros, string name, string number)
+{
+    nombres.insertarUltimo(name);
+    numeros.insertarUltimo(number);
+}
+
+void mostrarContactos(Lista<string> &nombres, Lista<string> &numeros)
+{
+    Lista<string> combinada;
+    int n = nombres.getTamanio();
+    for (int i = 0; i < n; i++)
+    {
+        combinada.insertarUltimo(nombres.getDato(i));
+        combinada.insertarUltimo(numeros.getDato(i));
+    }
+    cout << "Contacto = Nombre -> Número" << endl;
+    combinada.print();
+}
+
+void buscarNombre(Lista<string> &nombres, Lista<string> &numeros, string name)
+{
+    int n = nombres.getTamanio();
+    bool existe = false;
+    for (int i = 0; i < n; i++)
+    {
+        if (name == nombres.getDato(i))
+        {
+            cout << "Nombre = " << name << " - Numero = " << numeros.getDato(i) << endl;
+            existe = true;
+            break;
+        }
+    }
+    if (!(existe))
+        cout << "Error. Contacto no existente." << endl;
+}
+
+void eliminarContacto(Lista<string> &nombres, Lista<string> &numeros, string name)
+{
+    int n = nombres.getTamanio();
+    for (int i = 0; i < n; i++)
+    {
+        if (name == nombres.getDato(i))
+        {
+            nombres.remover(i);
+            numeros.remover(i);
+            break;
+        }
+    }
+    cout << "Error. Contacto no existente." << endl;
+}
+
+int contarContactos(Lista<string> &nombres)
+{
+    return nombres.getTamanio();
+}
+
+void mostrarMenu()
+{
+    cout << "\n------MENU:\n1- Agregar contacto\n2- Mostrar contactos\n"
+            "3- Buscar contacto por Nombre\n4- Eliminar contacto por Nombre\n"
+            "5- Contar contactos\n9- SALIR\n-------\n ->"
+         << endl;
+}
+
 int main()
 {
     int x;
 
-    cout << "MENU:\n1- Agregar contacto\n2- Mostrar contactos\n"
-            "3- Buscar contacto por Nombre\n4- Eliminar contacto por Nombre\n"
-            "5- Contar contactos\n9- SALIR\n\n ->"
-         << endl;
+    Lista<string> nombres, numeros;
+
+    mostrarMenu();
     cin >> x;
     while (x == 1 || x == 2 || x == 3 || x == 4 || x == 5)
     {
         switch (x)
         {
-        case 1:
+            {
+            case 1:
+                string name, number;
+                cout << "Ingrese el nombre -> ";
+                cin >> name;
+                cout << "Ingrese el numero -> ";
+                cin >> number;
+                agregarContacto(nombres, numeros, name, number);
+                mostrarMenu();
+                cin >> x;
+                break;
+            }
+
+            {
+            case 2:
+
+                mostrarContactos(nombres, numeros);
+                mostrarMenu();
+                cin >> x;
+                break;
+            }
+
+            {
+            case 3:
+                string name;
+                cout << "Ingrese nombre: ";
+                cin >> name;
+                buscarNombre(nombres, numeros, name);
+                mostrarMenu();
+                cin >> x;
+                break;
+            }
+
+            {
+            case 4:
+                string name;
+                cout << "Ingrese nombre: ";
+                cin >> name;
+                eliminarContacto(nombres, numeros, name);
+                mostrarMenu();
+                cin >> x;
+                break;
+            }
+
+            {
+            case 5:
+                cout << "Cantidad de contactos -> " << contarContactos(nombres);
+                mostrarMenu();
+                cin >> x;
+                break;
+            }
+
+            {
+            case 9:
+                break;
+            }
+
+            {
+            default:
+                cout << "Opcion invalida" << endl;
+            }
         }
     }
 
