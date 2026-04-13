@@ -67,16 +67,19 @@ void buscarNombre(Lista<string> &nombres, Lista<string> &numeros, string name)
 void eliminarContacto(Lista<string> &nombres, Lista<string> &numeros, string name)
 {
     int n = nombres.getTamanio();
+    bool existe = false;
     for (int i = 0; i < n; i++)
     {
         if (name == nombres.getDato(i))
         {
             nombres.remover(i);
             numeros.remover(i);
+            existe = true;
             break;
         }
     }
-    cout << "Error. Contacto no existente." << endl;
+    if (!(existe))
+        cout << "Error. Contacto no existente." << endl;
 }
 
 int contarContactos(Lista<string> &nombres)
@@ -164,6 +167,9 @@ int main()
             {
             default:
                 cout << "Opcion invalida" << endl;
+                mostrarMenu();
+                cin >> x;
+                break;
             }
         }
     }
