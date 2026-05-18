@@ -1,58 +1,114 @@
-/*Ejercicio 1: Organización de una biblioteca
-Problema: Estás organizando una biblioteca familiar. Cada libro tiene un número único de
-identificación (ID) y quieres organizar los libros en un sistema que te permita agregarlos,
-eliminarlos y buscarlos fácilmente.
-● Tarea: Inserta los libros con los siguientes IDs en el sistema de gestión (árbol): 101,
-52, 198, 36, 75, 150, 200.
-● Desafío: Busca el libro con el ID 75 y verifica si está en la biblioteca. Luego elimina
-el libro con el ID 52 porque fue prestado. Imprime la estructura del sistema después
-de la eliminación.
-*/
-
+/*Simulación de un pequeño diccionario. Utilizaremos el HashMap para almacenar pares de
+palabras (clave) y sus significados (valor).
+El usuario podrá:
+● Agregar nuevas palabras y sus significados.
+● Buscar el significado de una palabra.
+● Eliminar una palabra del diccionario.
+● Ver todas las palabras en el diccionario.*/
 #include <iostream>
 #include <string>
+#include "Hash/HashMap.h"
+#include "Hash/HashMapList.h"
 using namespace std;
 
-#include "Arbol/ArbolBinario.h"
+// Función hash simple para cadenas
+unsigned int hashString(string clave)
+{ // Cambiado a string en lugar de const string&
+    unsigned int hash = 0;
+    for (int i = 0; i < clave.length(); i++)
+    {
+
+        hash += clave[i];
+    }
+    return hash;
+    //    for (char c : clave) {//versión simplificada bucle for
+    //        hash += c;
+    //    }
+}
 
 int main()
 {
-    ArbolBinario<int> biblioteca;
-    cout << "Cargando libros\n"
-         << endl;
-    biblioteca.put(101);
-    biblioteca.put(52);
-    biblioteca.put(198);
-    biblioteca.put(36);
-    biblioteca.put(75);
-    biblioteca.put(150);
-    biblioteca.put(200);
+    unsigned int tamanoTabla = 11; // Tamaño de la tabla hash, número primo!!
+    HashMap<string, string> diccionario(tamanoTabla, hashString);
 
-    cout << "Buscando libros con ID = 75" << endl;
+    int opcion;
+    string palabra, significado;
 
-    try
+    do
     {
-        int libro1 = biblioteca.search(75);
-        cout << "El libro con ID=75 está en la biblioteca\n"
-             << endl;
-    }
-    catch (int err)
-    {
-        throw "No se encuentra el libro";
-    }
+        cout << "1. Agregar palabra\n";
+        cout << "2. Buscar significado\n";
+        cout << "3. Eliminar palabra\n";
+        cout << "4. Ver todas las palabras\n";
+        cout << "0. Salir\n";
+        cout << "Selecciona una opcion: ";
+        cin >> opcion;
 
-    try
-    {
-        biblioteca.remove(52);
-        cout << "El libro con ID=752 fue eliminado\n"
-             << endl;
-    }
-    catch (int err)
-    {
-        throw "No se encuentra el libro";
-    }
+        switch (opcion)
+        {
+        case 1:
+            cout << "Ingrese la palabra: ";
+            cin >> palabra;
+            cout << "Ingrese el significado: ";
+            cin.ignore(); // Para ignorar el salto de línea
+            getline(cin, significado);
+            try
+            {
+                diccionario.put(palabra, significado);
+                cout << "Palabra agregada correctamente.\n";
+            }
+            catch (int e)
+            {
+                if (e == 409)
+                    cout << "colision, intente otra.\n";
+            }
 
-    biblioteca.print();
+            break;
+
+        case 2:
+            cout << "Ingrese la palabra a buscar: ";
+            cin >> palabra;
+            try
+            {
+                significado = diccionario.get(palabra);
+                cout << "Significado de " << palabra << ": " << significado << endl;
+            }
+            catch (int e)
+            {
+                if (e == 404)
+                {
+                    cout << "Palabra no encontrada.\n";
+                }
+                else
+                {
+                    cout << "Error: Conflicto en la búsqueda.\n";
+                }
+            }
+            break;
+
+        case 3:
+            cout << "Ingrese la palabra a eliminar: ";
+            cin >> palabra;
+            diccionario.remove(palabra);
+            cout << "Palabra eliminada correctamente (si existia).\n";
+            break;
+
+        case 4:
+            cout << "Todas las palabras en el diccionario:\n";
+            diccionario.print(); // Imprimir todas las entradas
+            break;
+
+        case 0:
+            cout << "Saliendo...\n";
+            break;
+
+        default:
+            cout << "Opcion invalida. Intenta de nuevo.\n";
+        }
+
+        cout << endl;
+
+    } while (opcion != 0);
 
     return 0;
 }
