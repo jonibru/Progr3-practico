@@ -44,7 +44,7 @@ int main()
     try
     {
         biblioteca.remove(52);
-        cout << "El libro con ID=752 fue eliminado\n"
+        cout << "El libro con ID=52 fue eliminado\n"
              << endl;
     }
     catch (int err)

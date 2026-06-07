@@ -1,61 +1,43 @@
-/*Implementar una función que suprima de la cola todos los elementos mayores que un número
-“n” dado como límite. Al final se debe imprimir la cola depurada sin perder el orden que había
-desde la cola original.*/
+/* Ejercicio 2: Gestión de inventario en una tienda
+Problema: En una tienda de electrónica, cada producto tiene un código único y quieres
+gestionar el inventario. A medida que entran y salen productos, es necesario mantener el
+sistema actualizado.
+● Tarea: Inserta los productos con los siguientes códigos: 4001, 2002, 6003, 1500,
+3500, 5000, 7000.
+● Desafío: Un cliente compró los productos con códigos 2002 y 6003, así que
+elimínalos del sistema. Luego, un nuevo producto con el código 2500 llega al
+inventario. Imprime el inventario actualizado y verifica si el código 4001 todavía está
+en el sistema. */
 
 #include <iostream>
-#include "Cola/Cola.h"
+#include "Arbol/ArbolBinarioAVL.h"
 using namespace std;
-
-void suprimir(Cola<int> &c1, int n)
-{
-    Cola<int> aux;
-    while (!(c1.esVacia()))
-    {
-        int valor = c1.desencolar();
-        if (valor <= n)
-        {
-            aux.encolar(valor);
-        }
-    }
-    while (!(aux.esVacia()))
-    {
-        c1.encolar(aux.desencolar());
-    }
-}
-
-void mostrarCola(Cola<int> &c1)
-{
-    int valor;
-    while (!(c1.esVacia()))
-    {
-        valor = c1.desencolar();
-        cout << valor << " -> ";
-    }
-    cout << "NULL";
-}
-void encolar(Cola<int> &c1)
-{
-    cout << "\nIngrese valores, 0 para terminar:" << endl;
-    int s;
-    while (true)
-    {
-        cin >> s;
-        if (s == 0)
-            break;
-        c1.encolar(s);
-    }
-}
 
 int main()
 {
-    Cola<int> cola1;
-    int n;
-    cout << "Ejercicio N° 2" << endl;
-    encolar(cola1);
-    cout << "Ingrese n:";
-    cin >> n;
-    suprimir(cola1, n);
-    mostrarCola(cola1);
+    ArbolBinarioAVL<int> inventario;
+    cout << "Cargando inventario ..." << endl;
+    inventario.put(4001);
+    inventario.put(2002);
+    inventario.put(6003);
+    inventario.put(1500);
+    inventario.put(3500);
+    inventario.put(5000);
+    inventario.put(7000);
+
+    cout << "Inventario cargado" << endl;
+
+    inventario.print();
+
+    inventario.remove(2002);
+    inventario.remove(6003);
+
+    cout << "Productos 2002 y 6003 eliminados" << endl;
+
+    inventario.put(2500);
+
+    inventario.print();
+    inventario.inorder();
 
     return 0;
 }
