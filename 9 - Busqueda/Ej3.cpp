@@ -1,74 +1,127 @@
-/*Ejercicio N°3
-Registro de productos en una tienda. Almacenar productos de una tienda usando un código
-único como clave y el nombre del producto como valor. Usa el HashMap para almacenar los
-productos. El código de producto es la clave y el nombre es el valor.
-Implementa opciones para:
-● Añadir productos.
-● Buscar productos por su código.
-● Actualizar el nombre de un producto existente.
-● Eliminar productos.
-● Imprimir todos los productos registrados.
-● Desafío adicional: Implementa el manejo de colisiones, y lanza excepciones cuando se
-intenten agregar productos con códigos ya existentes o buscar productos no
-registrados.*/
+// QUICK SORT + BUSQUEDA BINARIA
+
 #include <iostream>
-#include <string>
-#include "Hash/HashMap.h"
-#include "Hash/HashMapList.h"
 using namespace std;
 
-unsigned int Hashstring(string clave)
+void mostrarArreglo(int arr[], int n)
 {
-    unsigned int hash = 0;
-
-    for (int i = 0; i < clave.length(); i++)
+    for (int i = 0; i < n; i++)
     {
-        hash += clave[i];
+        cout << arr[i] << " ";
     }
-    return hash;
+    cout << endl;
+}
+
+int particion(int arr[], int inicio, int fin, int &cantidad)
+{
+    int pivote = arr[fin];
+    int i = inicio - 1;
+
+    for (int j = inicio; j < fin; j++)
+    {
+        cantidad++;
+        if (arr[j] < pivote)
+        {
+            i++;
+            int aux = arr[i];
+            arr[i] = arr[j];
+            arr[j] = aux;
+        }
+    }
+    int aux = arr[i + 1];
+    arr[i + 1] = arr[fin];
+    arr[fin] = aux;
+
+    return i + 1;
+}
+
+void quicksort(int arr[], int inicio, int fin, int &cantidad)
+{
+    cantidad++;
+    if (inicio < fin)
+    {
+        int posicionPivote = particion(arr, inicio, fin, cantidad);
+
+        quicksort(arr, inicio, posicionPivote - 1, cantidad);
+        quicksort(arr, posicionPivote + 1, fin, cantidad);
+    }
+}
+
+// FUNCION DE BUSQUEDA BINARIA
+
+int busquedaBinaria(int arr[], int n, int busqueda, int &cantidad)
+{
+    int inicio = 0;
+    int fin = n - 1;
+
+    while (inicio <= fin)
+    {
+        cantidad++;
+        int medio = (inicio + fin) / 2;
+
+        if (busqueda == arr[medio])
+        {
+            return medio;
+        }
+        cantidad++;
+        if (busqueda < arr[medio])
+        {
+            fin = medio - 1;
+        }
+        else
+        {
+            inicio = medio + 1;
+        }
+    }
+    return -1; // no se encontro
 }
 
 int main()
 {
-    unsigned int tamanio = 11;
-    HashMap<string, string> catalogo(tamanio, Hashstring);
-    cout << "Ejercicio N° 3" << endl;
+    const int TAM = 30;
 
-    int opcion;
-    string clave, nombre;
+    int datos[TAM] = {
+        42, 17, 89, 3, 56, 74, 21, 9, 65, 38,
+        100, 12, 47, 6, 81, 29, 53, 70, 1, 94,
+        33, 25, 60, 14, 77, 5, 49, 86, 31, 68};
 
-    do
+    int contadorCondicionales = 0;
+
+    cout << "Arreglo original:" << endl;
+    mostrarArreglo(datos, TAM);
+
+    quicksort(datos, 0, TAM - 1, contadorCondicionales);
+
+    cout << endl;
+    cout << "Arreglo ordenado:" << endl;
+    mostrarArreglo(datos, TAM);
+
+    cout << endl;
+    cout << "Cantidad de condicionales evaluados en QuickSort: "
+         << contadorCondicionales << endl;
+
+    int buscado;
+    cout << endl;
+    cout << "Ingrese el numero que desea buscar: ";
+    cin >> buscado;
+
+    int contadorBusqueda = 0;
+    int posicion = busquedaBinaria(datos, TAM, buscado, contadorBusqueda);
+
+    cout << endl;
+
+    if (posicion != -1)
     {
-        cout << "1. Añadir producto\n";
-        cout << "2. Buscar producto por codigo";
-        cout << "3. Actualizar nombre de producto";
-        cout << "4. Eliminar producto";
-        cout << "5. Imprimir todos los productos registrados";
-        cout << "0. Salir\n";
+        cout << "El numero " << buscado << " fue encontrado en la posicion "
+             << posicion << " del arreglo ordenado." << endl;
+    }
+    else
+    {
+        cout << "El numero " << buscado << " no fue encontrado en el arreglo." << endl;
+    }
 
-        cin >> opcion;
-        switch (opcion)
-        {
-        case 1:
-            cout << "Ingrese clave del producto: ";
-            cin >> clave;
-            cin.ignore();
-            cout << "Ingrese nombre del producto: ";
-            getline(cin, nombre);
-            try
-            {
-                catalogo.put(clave, nombre);
-                cout << "Producto agregado exitosamente.";
-            }
-            catch (int e)
-            {
-                if (e == 409)
-                {
-                    cout << "Error. Existe una colisión";
-                }
-            }
-        }
-    };
+    cout << "Cantidad de condicionales evaluados en la busqueda binaria: "
+         << contadorBusqueda << endl;
 
     return 0;
 }
